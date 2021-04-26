@@ -7,26 +7,30 @@ import { Article } from './article.entity';
 export class ArticleService {
   constructor(
     @InjectRepository(Article)
-    private articleRepository: Repository<Article>,
+    private articleRepository: Repository<Article>
   ) {}
 
+  private articleQueryBuilder = this.articleRepository
+    .createQueryBuilder('article')
+    .leftJoinAndSelect('article.author', 'user')
+    .select([
+      'article.slug',
+      'article.title',
+      'article.description',
+      'article.createdAt',
+      'article.updatedAt',
+      'article.favoriteCount',
+      'user.username',
+      'user.bio',
+      'user.image'
+    ]);
+
   findAll(): Promise<Article[]> {
-    return this.articleRepository.find({ relations: ['user'] });
+    return this.articleQueryBuilder.getMany();
   }
 
   findOne(slug): Promise<Article> {
-    return this.articleRepository.findOne(slug, {
-      relations: ['user'],
-      select: [
-        'slug',
-        'title',
-        'body',
-        'description',
-        'favoriteCount',
-        'createdAt',
-        'updatedAt',
-      ],
-    });
+    return this.articleQueryBuilder.where({ slug }).getOne();
   }
 
   async create(article: Article): Promise<void> {
@@ -34,7 +38,7 @@ export class ArticleService {
       await this.articleRepository.insert({
         ...article,
         slug: article.title.toLowerCase().replace(/ /gi, '-'),
-        user: { username: article.username },
+        author: { username: article.username }
       });
     } catch (err) {
       console.log(err);

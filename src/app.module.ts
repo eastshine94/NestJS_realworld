@@ -9,7 +9,7 @@ import { ArticleModule } from './article/article.module';
 @Module({
   imports: [TypeOrmModule.forRoot(), UserModule, ArticleModule],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService]
 })
 export class AppModule {
   constructor(private connection: Connection) {}

@@ -18,6 +18,6 @@ export class User {
   @Column({ default: '' })
   image?: string;
 
-  @OneToMany(() => Article, (article) => article.user)
+  @OneToMany(() => Article, article => article.author)
   articles: Article[];
 }

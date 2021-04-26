@@ -5,7 +5,7 @@ import {
   CreateDateColumn,
   ManyToOne,
   JoinColumn,
-  UpdateDateColumn,
+  UpdateDateColumn
 } from 'typeorm';
 import { User } from '../user/user.entity';
 
@@ -30,15 +30,15 @@ export class Article {
   updatedAt?: Date;
 
   @Column({
-    default: 0,
+    default: 0
   })
   favoriteCount?: number;
 
-  @ManyToOne(() => User, (user) => user.articles, { nullable: true })
+  @ManyToOne(() => User, user => user.articles, { nullable: true })
   @JoinColumn({
-    name: 'username',
+    name: 'username'
   })
-  user!: User;
+  author!: User;
 
   username: string;
 }

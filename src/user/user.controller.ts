@@ -5,7 +5,7 @@ import {
   Param,
   Post,
   Body,
-  Patch,
+  Patch
 } from '@nestjs/common';
 import { User } from './user.entity';
 import { UserService } from './user.service';
