@@ -2,7 +2,7 @@ import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { ArticleService } from './article.service';
 import { Article } from './article.entity';
 
-@Controller('api/article')
+@Controller('api/articles')
 export class ArticleController {
   constructor(private articleService: ArticleService) {}
 

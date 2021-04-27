@@ -10,7 +10,7 @@ import {
 import { User } from './user.entity';
 import { UserService } from './user.service';
 
-@Controller('api/user')
+@Controller('api/users')
 export class UserController {
   constructor(private userService: UserService) {}
 
