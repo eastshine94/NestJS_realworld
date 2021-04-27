@@ -17,8 +17,8 @@ export class ArticleController {
   }
 
   @Post()
-  create(@Body() req: { article: Article }) {
-    return this.articleService.create(req.article);
+  create(@Body() req: { article: Article & { tagList: Array<string> } }) {
+    return this.articleService.create({ ...req.article });
   }
 
   @Delete(':slug')
