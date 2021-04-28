@@ -6,8 +6,10 @@ export class Tag {
   @PrimaryColumn()
   name!: string;
 
-  @ManyToMany(() => Article, articles => articles.slug, {
-    cascade: true
+  @ManyToMany(() => Article, articles => articles.id, {
+    cascade: true,
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE'
   })
   articles: Article[];
 }

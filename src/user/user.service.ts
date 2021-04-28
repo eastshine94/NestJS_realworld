@@ -14,8 +14,8 @@ export class UserService {
     return this.userRepository.find();
   }
 
-  findOne(id: string): Promise<User> {
-    return this.userRepository.findOne(id);
+  findOne(id: string): Promise<{ user: User }> {
+    return this.userRepository.findOne(id).then(user => ({ user }));
   }
 
   async create(user): Promise<void> {
@@ -27,7 +27,7 @@ export class UserService {
     }
   }
 
-  async fetch(user: User): Promise<void> {
+  async update(user: User): Promise<void> {
     try {
       await this.userRepository.update(user.username, user);
     } catch (err) {

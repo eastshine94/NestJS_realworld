@@ -5,36 +5,36 @@ import {
   Param,
   Post,
   Body,
-  Patch
+  Put
 } from '@nestjs/common';
 import { User } from './user.entity';
 import { UserService } from './user.service';
 
-@Controller('api/users')
+@Controller('api')
 export class UserController {
   constructor(private userService: UserService) {}
 
-  @Get()
+  @Get('users')
   findAll() {
     return this.userService.findAll();
   }
 
-  @Get(':username')
+  @Get('user/:username')
   find(@Param('username') username: string) {
     return this.userService.findOne(username);
   }
 
-  @Post()
+  @Post('users')
   create(@Body() req: { user: User }) {
     return this.userService.create(req.user);
   }
 
-  @Patch()
+  @Put('user')
   update(@Body() req: { user: User }) {
-    return this.userService.fetch(req.user);
+    return this.userService.update(req.user);
   }
 
-  @Delete(':username')
+  @Delete('user/:username')
   delete(@Param('username') username: string) {
     return this.userService.remove(username);
   }

@@ -1,7 +1,7 @@
 import {
   Entity,
   Column,
-  PrimaryColumn,
+  PrimaryGeneratedColumn,
   CreateDateColumn,
   ManyToOne,
   JoinColumn,
@@ -14,7 +14,10 @@ import { Tag } from '../tag/tag.entity';
 
 @Entity()
 export class Article {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn()
+  id?: number;
+
+  @Column({ unique: true })
   slug?: string;
 
   @Column({ unique: true })
@@ -37,7 +40,9 @@ export class Article {
   })
   favoriteCount?: number;
 
-  @ManyToOne(() => User, user => user.articles)
+  @ManyToOne(() => User, user => user.articles, {
+    onUpdate: 'CASCADE'
+  })
   @JoinColumn({
     name: 'username'
   })
@@ -46,13 +51,15 @@ export class Article {
   username: string;
 
   @ManyToMany(() => Tag, tags => tags.name, {
-    cascade: true
+    cascade: true,
+    onUpdate: 'CASCADE',
+    onDelete: 'CASCADE'
   })
   @JoinTable({
     name: 'tagList',
     joinColumn: {
       name: 'article_id',
-      referencedColumnName: 'slug'
+      referencedColumnName: 'id'
     },
     inverseJoinColumn: {
       name: 'tag_id',

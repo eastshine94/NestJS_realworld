@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put
+} from '@nestjs/common';
 import { ArticleService } from './article.service';
 import { Article } from './article.entity';
 
@@ -17,8 +25,13 @@ export class ArticleController {
   }
 
   @Post()
-  create(@Body() req: { article: Article & { tagList: Array<string> } }) {
+  create(@Body() req: { article: Article }) {
     return this.articleService.create({ ...req.article });
+  }
+
+  @Put(':slug')
+  update(@Param('slug') slug: string, @Body() req: { article: Article }) {
+    return this.articleService.update(slug, { ...req.article });
   }
 
   @Delete(':slug')
