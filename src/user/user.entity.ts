@@ -3,7 +3,7 @@ import { Article } from '../article/article.entity';
 
 @Entity()
 export class User {
-  @PrimaryColumn()
+  @PrimaryColumn({ primary: true })
   username!: string;
 
   @Column({ unique: true })

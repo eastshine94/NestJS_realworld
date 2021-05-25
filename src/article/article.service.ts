@@ -49,7 +49,7 @@ export class ArticleService {
       .then(article => ({ article: this.getArticleApi(article) }));
   }
 
-  async create(article: Article): Promise<void> {
+  async create(article: Article): Promise<boolean> {
     try {
       const tagList = await (article.tagList as Array<string>).map(tag => {
         const tagObj = new Tag();
@@ -57,6 +57,12 @@ export class ArticleService {
         return tagObj;
       });
 
+      const find = await this.articleRepository.findOne({
+        title: article.title
+      });
+      if (find) {
+        return false;
+      }
       await this.articleRepository.save({
         ...article,
         slug: article.title.toLowerCase().replace(/ /gi, '-'),
